@@ -21,7 +21,7 @@ $parallelizer->add($processB);
 $parallelizer->add($processC);
 // ....
 
-$parallelizer->run(function ($level, $output) use (&$tested) {
+$parallelizer->run(function ($level, $output) {
     var_dump($output);
 });
 ```
