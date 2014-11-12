@@ -27,9 +27,9 @@ class Parallelizer
         $this->processes = array();
     }
 
-    public function add(Process $process)
+    public function add(Process $process, $identifier = null)
     {
-        $this->processes[] = $process;
+        $this->processes[$identifier ?: uniqid()] = $process;
     }
 
     public function run($callback = null)

@@ -16,14 +16,12 @@ use Parallelizer\Parallelizer;
 // we want to run 2 processes in parallel
 $parallelizer = new Parallelizer(2);
 
-$parallelizer->add($processA);
-$parallelizer->add($processB);
-$parallelizer->add($processC);
+$parallelizer->add($processA, 'processA');
+$parallelizer->add($processB, 'processB');
 // ....
 
-$parallelizer->run(function ($level, $output) {
-    var_dump($output);
-});
+var_dump($parallelizer->run());
+
 ```
 
 ## Test
