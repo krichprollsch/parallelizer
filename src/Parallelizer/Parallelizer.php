@@ -92,6 +92,11 @@ class Parallelizer
         return false;
     }
 
+    public function getProcesses()
+    {
+        return $this->processes;
+    }
+
     protected function applyTerminated()
     {
         $terminated = $this->getTerminated();
