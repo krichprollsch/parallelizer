@@ -99,7 +99,7 @@ class Parallelizer
 
     protected function applyTerminated()
     {
-        $terminated = $this->getTerminated();
+        $this->getTerminated();
     }
 
     protected function wait()
