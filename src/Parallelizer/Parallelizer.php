@@ -16,6 +16,7 @@ class Parallelizer
 
     protected $max_processes;
     protected $processes;
+    protected $todo;
     protected $sleep_duration;
 
     public function __construct(
@@ -25,11 +26,14 @@ class Parallelizer
         $this->sleep_duration = $sleep_duration;
         $this->max_processes = $max_processes;
         $this->processes = array();
+        $this->todo = array();
     }
 
     public function add(Process $process, $identifier = null)
     {
-        $this->processes[$identifier ?: uniqid()] = $process;
+        $identifier = $identifier ?: uniqid();
+        $this->processes[(string) $identifier] = $process;
+        $this->todo[(string) $identifier] = $process;
     }
 
     public function run($callback = null)
@@ -57,7 +61,7 @@ class Parallelizer
     public function countRunners()
     {
         $runners=0;
-        foreach ($this->processes as $process) {
+        foreach ($this->todo as $process) {
             if ($process->isRunning()) {
                 $runners++;
             }
@@ -82,7 +86,7 @@ class Parallelizer
 
     protected function getNext()
     {
-        foreach ($this->processes as $process) {
+        foreach ($this->todo as $process) {
             /* @var $process Process */
             if (is_null($process->getExitCode()) && !$process->isRunning()) {
                 return $process;
@@ -116,10 +120,10 @@ class Parallelizer
     protected function getTerminated()
     {
         $terminated = array();
-        foreach ($this->processes as $key => $process) {
+        foreach ($this->todo as $key => $process) {
             /* @var $process Process */
             if (!is_null($process->getExitCode())) {
-                unset($this->processes[$key]);
+                unset($this->todo[$key]);
                 $terminated[] = $process;
             }
         }
