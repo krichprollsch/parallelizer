@@ -1,7 +1,6 @@
 {
     "name": "ptachoire/parallelizer",
     "description": "Parallelizer for symfony process",
-    "version": "1.0.0",
     "require": {
         "symfony/process": "~2.5"
     },
